@@ -115,3 +115,27 @@ export function ImageGenerator({ initialQuote = "Choose the thoughts that help y
     </div>
   );
 }
+
+export function ReportForm({ quoteId }: { quoteId: string }) {
+  const [status, setStatus] = useState("");
+  const [busy, setBusy] = useState(false);
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setBusy(true); setStatus("");
+    const values = Object.fromEntries(new FormData(event.currentTarget));
+    const response = await fetch("/api/reports", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(values) });
+    const result = await response.json() as { error?: string; id?: string };
+    setBusy(false);
+    setStatus(response.ok ? `Report received. Reference ${result.id}.` : result.error ?? "Unable to submit report.");
+    if (response.ok) event.currentTarget.reset();
+  };
+  return <form className="generator-controls" onSubmit={submit}>
+    <label>Quote ID<input name="quoteId" defaultValue={quoteId} readOnly required /></label>
+    <label>Reason<select name="reason" required><option value="incorrect-author">Incorrect author</option><option value="incorrect-wording">Incorrect wording</option><option value="incorrect-source">Incorrect source</option><option value="rights-concern">Rights concern</option></select></label>
+    <label>Suggested correction<textarea name="suggestedCorrection" maxLength={2000} /></label>
+    <label>Source evidence<input name="sourceEvidence" type="url" maxLength={1000} placeholder="https://…" /></label>
+    <label>Email (optional)<input name="reporterEmail" type="email" maxLength={254} /></label>
+    <button className="primary" disabled={busy}>{busy ? "Submitting…" : "Submit report"}</button>
+    <p role="status" aria-live="polite">{status}</p>
+  </form>;
+}
