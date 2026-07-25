@@ -1,9 +1,11 @@
 import { QuoteCard, SearchBox } from "./components";
-import { authors, publicQuotes, quoteForDate, todayUtc, topics } from "./data";
+import { authors, quoteForDate, todayUtc, topics } from "./data";
+import { getPublishedQuotes } from "../db/public";
 import { PageShell } from "./site-shell";
 
-export default function Home() {
-  const daily = quoteForDate(todayUtc());
+export default async function Home() {
+  const available = await getPublishedQuotes();
+  const daily = available.length ? available[Math.abs(Math.floor(Date.parse(`${todayUtc()}T00:00:00Z`) / 86_400_000)) % available.length] : quoteForDate(todayUtc());
   return (
     <PageShell>
       <section className="hero">

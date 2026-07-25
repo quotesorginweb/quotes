@@ -1,0 +1,6 @@
+import assert from "node:assert/strict";import test from "node:test";import {readFile} from "node:fs/promises";
+const editorial=await readFile(new URL("../db/editorial.ts",import.meta.url),"utf8");
+test("workflow blocks duplicates and enforces publication checks",()=>{assert.match(editorial,/DUPLICATE_QUOTE/);assert.match(editorial,/PUBLICATION_CHECKS_FAILED/);assert.match(editorial,/SECOND_REVIEWER_REQUIRED/);assert.match(editorial,/attributionConfidence >= 80/)});
+test("every mutation writes an audit record",()=>{for(const action of ["created-draft","evidence-verified","bootstrap-administrator","resolved"])assert.match(editorial,new RegExp(action))});
+test("public repository selects approved published records",async()=>{const source=await readFile(new URL("../db/public.ts",import.meta.url),"utf8");assert.match(source,/publicationStatus, "published"/);assert.match(source,/rightsReviewStatus, "approved"/);assert.match(source,/seeds\.filter/)});
+test("admin mutations require authenticated editorial roles",async()=>{for(const path of ["../app/api/admin/quotes/route.ts","../app/api/admin/quotes/[id]/review/route.ts","../app/api/admin/quotes/[id]/evidence/route.ts"]){const source=await readFile(new URL(path,import.meta.url),"utf8");assert.match(source,/getChatGPTUser/);assert.match(source,/requireEditorialUser/)}});

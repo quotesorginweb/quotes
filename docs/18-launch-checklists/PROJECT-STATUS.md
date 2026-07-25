@@ -2,7 +2,7 @@
 
 ## Completed
 
-Public discovery milestone, verified demonstration data, daily selection, search, quote actions, image generator, SEO controls, accessibility foundation, classifier tests and core ADRs.
+Public discovery milestone, database-backed home/search/daily quote selection with safe seed fallback, verified demonstration data, quote actions, image generator, SEO controls, accessibility foundation, classifier tests, authenticated editorial dashboard, role gates, draft creation, duplicate blocking, evidence review, approval/rejection/unpublishing, report moderation and audit history.
 
 ## Remaining
 

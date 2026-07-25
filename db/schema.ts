@@ -64,6 +64,7 @@ export const quotes = sqliteTable("quotes", {
   contentSafetyLabels: text("content_safety_labels").notNull().default("[]"),
   quoteLength: integer("quote_length").notNull(),
   editorialNotes: text("editorial_notes"),
+  preparedById: text("prepared_by_id").references(() => users.id),
   publicationStatus: text("publication_status", { enum: ["draft", "in-review", "scheduled", "published", "unpublished", "rejected"] }).notNull().default("draft"),
   publishedAt: text("published_at"),
   reviewedAt: text("reviewed_at"),

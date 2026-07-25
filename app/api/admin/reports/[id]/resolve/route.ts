@@ -1,0 +1,3 @@
+import { getChatGPTUser } from "../../../../../chatgpt-auth";
+import { requireEditorialUser, resolveReport } from "../../../../../../db/editorial";
+export async function POST(_:Request,{params}:{params:Promise<{id:string}>}){const identity=await getChatGPTUser();if(!identity)return Response.json({error:"Authentication required"},{status:401});try{const moderator=await requireEditorialUser(identity,["administrator","editor","reviewer"]);const{id}=await params;await resolveReport(id,moderator);return Response.json({status:"resolved"})}catch(error){const message=error instanceof Error?error.message:"Unable to resolve report";return Response.json({error:message},{status:message==="EDITORIAL_ACCESS_DENIED"?403:400})}}
