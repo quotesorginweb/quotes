@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { CollectionControls } from "../../components";
+import { publicQuotes, topics } from "../../data";
+import { PageShell } from "../../site-shell";
+export function generateStaticParams(){return topics.map(({slug})=>({slug}));}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const topic=topics.find(t=>t.slug===slug);if(!topic)return{};return{title:`${topic.label} Quotes: Verified Sayings and Sources`,description:`A curated collection of verified ${topic.label.toLowerCase()} quotes with authors and source notes.`,alternates:{canonical:`/topics/${slug}`}}}
+export default async function TopicPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const topic=topics.find(t=>t.slug===slug);if(!topic)notFound();const selected=publicQuotes.filter(q=>q.topics.includes(slug));return <PageShell><section className="page-hero"><div className="breadcrumbs"><a href="/">Home</a> / <a href="/topics">Topics</a> / {topic.label}</div><p className="eyebrow">Verified collection</p><h1>{topic.label} quotes</h1><p>{topic.note}. Each quotation below has passed our publication rules and includes a traceable source.</p><p><small>Reviewed 20 July 2026 · Quotes.org.in editorial desk</small></p></section><section className="content">{selected.length?<CollectionControls quotes={selected}/>:<div className="quote-card"><h2>Collection in editorial review</h2><p>We have not published filler or unverified quotations to make this page look complete. Verified entries will appear after source and rights review.</p></div>}</section></PageShell>}

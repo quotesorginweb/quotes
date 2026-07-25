@@ -1,0 +1,3 @@
+import assert from "node:assert/strict";import test from "node:test";import {readFile} from "node:fs/promises";
+test("public dataset excludes unverified records",async()=>{const source=await readFile(new URL("../app/data.ts",import.meta.url),"utf8");assert.match(source,/verified-primary-source/);assert.match(source,/quote\.published/);assert.match(source,/verified-reliable-secondary-source/)});
+test("search and quote permalinks declare noindex",async()=>{for(const path of ["../app/search/page.tsx","../app/quote/[slug]/page.tsx"]){const source=await readFile(new URL(path,import.meta.url),"utf8");assert.match(source,/index:\s*false/);assert.match(source,/follow:\s*true/)}});

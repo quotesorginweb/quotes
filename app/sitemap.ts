@@ -1,0 +1,2 @@
+import type {MetadataRoute} from "next";import {authors,topics} from "./data";
+export default function sitemap():MetadataRoute.Sitemap{const base="https://quotes.org.in";return["","/topics","/authors","/quote-of-the-day","/tools/quote-image-generator","/editorial-policy",...topics.map(x=>`/topics/${x.slug}`),...authors.map(x=>`/authors/${x.slug}`)].map(url=>({url:`${base}${url}`,lastModified:new Date("2026-07-20"),changeFrequency:url==="/quote-of-the-day"?"daily":"monthly",priority:url===""?1:.7}))}
