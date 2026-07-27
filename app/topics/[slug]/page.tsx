@@ -13,6 +13,7 @@ const collectionContext:Record<string,string>={
   family:"Family can mean kinship, household, community or the people we choose to keep close. These public-domain lines widen belonging rather than prescribing one ideal home: Shakespeare finds kinship in shared humanity, Confucian tradition imagines brotherhood across the four seas, and Emerson makes friendship an active responsibility.",
   change:"Change can be chosen, resisted or imposed. These quotations offer perspective for transitions without pretending that every difficult change is automatically beneficial.",
   "short-motivational":"Short quotations are useful when the source remains visible. Every line here is concise enough for a note or image while retaining its author, work and location.",
+  "good-morning":"A thoughtful morning message can offer energy without making impossible promises. This collection brings together verified words about dawn, light, purposeful action, self-command and hope—including Hindi dohas and Indian poetry. Choose a line that fits the recipient, then add your own simple wish for the day ahead.",
 };
 
 export function generateStaticParams(){return topics.map(({slug})=>({slug}))}
