@@ -20,3 +20,15 @@ test("new topics consolidate content rather than generating keyword variants", (
   }
   assert.doesNotMatch(source, /motivation-quotes|quotes-for-motivation|motivating-quotations/);
 });
+
+test("requested content wave has sourced records and consolidated collections", () => {
+  for (const id of ["q-shakespeare-005","q-shakespeare-006","q-shakespeare-007","q-shakespeare-008","q-confucius-003","q-confucius-004"]) {
+    assert.match(source, new RegExp(`id: "${id}"`));
+  }
+  for (const slug of ["gratitude","teamwork","positive","family","short-motivational"]) {
+    assert.match(source, new RegExp(`slug: "${slug}"`));
+  }
+  assert.match(source, /Twelfth Night, Act 3, Scene 3/);
+  assert.match(source, /Henry V, Act 4, Scene 3/);
+  assert.match(source, /Analects, Book 14 \(Xian Wen\)/);
+});
