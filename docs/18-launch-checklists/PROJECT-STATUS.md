@@ -2,7 +2,7 @@
 
 ## Completed
 
-Public discovery milestone, database-backed home/search/daily quote selection with safe seed fallback, seventeen sourced public-domain seed quotations across five authors and fourteen consolidated topics, dedicated gratitude, teamwork, leadership-for-work, positive, family, change and short-motivation copy, graduation and retirement collections, ten original occasion-page briefs with verified-only indexability controls, expanded Emerson and Lincoln context plus author methodology/bibliographies, multi-format image specifications, quote actions, image generator, SEO controls, accessibility foundation, classifier tests, authenticated editorial dashboard, role gates, draft creation, duplicate blocking, evidence review, approval/rejection/unpublishing, report moderation and audit history.
+Public discovery milestone, database-backed home/search/daily quote selection with safe seed fallback, twenty-two sourced public-domain seed quotations across six authors and fourteen consolidated topics, dedicated gratitude, teamwork, leadership-for-work, positive, family, change and short-motivation copy, expanded graduation and retirement collections, ten original occasion-page briefs with verified-only indexability controls, expanded Emerson, Lincoln and Cicero context plus author methodology/bibliographies, multi-format image specifications, quote actions, image generator, SEO controls, accessibility foundation, classifier tests, authenticated editorial dashboard, role gates, draft creation, duplicate blocking, evidence review, approval/rejection/unpublishing, report moderation and audit history.
 
 ## Remaining
 

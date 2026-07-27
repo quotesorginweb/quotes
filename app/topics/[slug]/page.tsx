@@ -5,11 +5,11 @@ import {publicQuotes,topics} from "../../data";
 import {PageShell} from "../../site-shell";
 
 const collectionContext:Record<string,string>={
-  gratitude:"Gratitude is more than forced positivity. These quotations recognise friendship, generosity and the value of receiving help with attention and sincerity.",
-  teamwork:"Good teamwork depends on trust, shared effort and responsibility. The selections preserve their original dramatic or philosophical context rather than turning every line into corporate advice.",
+  gratitude:"Gratitude begins in attention: noticing help, friendship and the ordinary good that habit can make invisible. These public-domain selections move from spoken thanks to Emerson’s harder question of what we do with benefits received. They offer precise language for recognising a gift, remembering a shared life and answering generosity with action.",
+  teamwork:"Teamwork is more than agreement or a poster slogan. These verified lines consider comradeship, modest speech, mutual learning and Emerson’s insistence that relationship asks something of us. Together they frame cooperation as dependable action and returning value to the community that helped create it.",
   leadership:"Leadership is treated here as character expressed through action. A dedicated work-focused subgroup highlights modest speech, courage, service and collective purpose.",
-  positive:"This collection favours grounded hope over empty reassurance: words that acknowledge difficulty while leaving room for friendship, learning and deliberate action.",
-  family:"Family can mean ancestry, household, community or chosen kinship. These sourced quotations explore belonging without assuming every reader has the same family experience.",
+  positive:"Positive quotations should make room for reality. This collection draws optimism from practices that can survive a difficult day: learning, friendship, useful action, cultivated character and the memory of good already done. Its hope is grounded in choices, relationships and perspective.",
+  family:"Family can mean kinship, household, community or the people we choose to keep close. These public-domain lines widen belonging rather than prescribing one ideal home: Shakespeare finds kinship in shared humanity, Confucian tradition imagines brotherhood across the four seas, and Emerson makes friendship an active responsibility.",
   change:"Change can be chosen, resisted or imposed. These quotations offer perspective for transitions without pretending that every difficult change is automatically beneficial.",
   "short-motivational":"Short quotations are useful when the source remains visible. Every line here is concise enough for a note or image while retaining its author, work and location.",
 };
