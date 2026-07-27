@@ -7,7 +7,7 @@ const formats = ["square", "portrait", "landscape", "pinterest", "open-graph"];
 test("every verified topic collection has five original image formats", async () => {
   const metadata = JSON.parse(await readFile(new URL("../public/images/quote-collections/licensing-metadata.json", import.meta.url), "utf8"));
   const collections = [...new Set(metadata.assets.map((asset) => asset.collection))];
-  assert.equal(collections.length, 17);
+  assert.equal(collections.length, 18);
   assert.equal(metadata.assets.length, collections.length * formats.length);
   for (const collection of collections) {
     const collectionAssets = metadata.assets.filter((asset) => asset.collection === collection);
