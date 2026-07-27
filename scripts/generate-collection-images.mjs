@@ -35,7 +35,8 @@ for (const [topicIndex, topic] of topics.entries()) {
   if (!quote) throw new Error(`No verified quotation for ${topic.slug}`);
 
   for (const format of formats) {
-    const filename = `${topic.slug}-quotes-${quote.authorSlug}-${format.slug}.webp`;
+    const collectionFilename = topic.slug.endsWith("-quotes") ? topic.slug : `${topic.slug}-quotes`;
+    const filename = `${collectionFilename}-${quote.authorSlug}-${format.slug}.webp`;
     const imagePath = path.join(outputDir, filename);
     const imageExists = await access(imagePath).then(() => true).catch(() => false);
     const isWide = format.width / format.height > 1.4;
