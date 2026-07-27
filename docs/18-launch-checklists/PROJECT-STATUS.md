@@ -2,7 +2,7 @@
 
 ## Completed
 
-Public discovery milestone, database-backed home/search/daily quote selection with safe seed fallback, verified demonstration data, quote actions, image generator, SEO controls, accessibility foundation, classifier tests, authenticated editorial dashboard, role gates, draft creation, duplicate blocking, evidence review, approval/rejection/unpublishing, report moderation and audit history.
+Public discovery milestone, database-backed home/search/daily quote selection with safe seed fallback, eleven sourced public-domain seed quotations across five authors and nine topics, quote actions, image generator, SEO controls, accessibility foundation, classifier tests, authenticated editorial dashboard, role gates, draft creation, duplicate blocking, evidence review, approval/rejection/unpublishing, report moderation and audit history.
 
 ## Remaining
 
