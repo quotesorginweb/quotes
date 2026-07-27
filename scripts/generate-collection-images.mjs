@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { access, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { publicQuotes, topics } from "../app/data.ts";
@@ -37,6 +37,7 @@ for (const [topicIndex, topic] of topics.entries()) {
   for (const format of formats) {
     const filename = `${topic.slug}-quotes-${quote.authorSlug}-${format.slug}.webp`;
     const imagePath = path.join(outputDir, filename);
+    const imageExists = await access(imagePath).then(() => true).catch(() => false);
     const isWide = format.width / format.height > 1.4;
     const fontSize = isWide ? 52 : 58;
     const maxChars = isWide ? 44 : 29;
@@ -57,21 +58,23 @@ for (const [topicIndex, topic] of topics.entries()) {
         <text x="50%" y="${format.height * .86}" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#536a73">QUOTES.ORG.IN · VERIFIED SOURCE</text>
       </svg>`;
 
-    await sharp(master)
-      .resize(format.width, format.height, { fit: "cover", position: "attention" })
-      .modulate({ hue: topicIndex * 23, saturation: 0.82 + (topicIndex % 3) * .08 })
-      .composite([{ input: Buffer.from(textSvg) }])
-      .webp({ quality: 88, effort: 5 })
-      .withMetadata({
-        exif: {
-          IFD0: {
-            ImageDescription: `${topic.label} quote by ${quote.author}: “${quote.text}”`,
-            Copyright: "© 2026 Quotes.org.in. Original artwork; quotation text is public domain.",
-            Artist: "Quotes.org.in editorial studio with OpenAI image generation",
+    if (!imageExists) {
+      await sharp(master)
+        .resize(format.width, format.height, { fit: "cover", position: "attention" })
+        .modulate({ hue: topicIndex * 23, saturation: 0.82 + (topicIndex % 3) * .08 })
+        .composite([{ input: Buffer.from(textSvg) }])
+        .webp({ quality: 88, effort: 5 })
+        .withMetadata({
+          exif: {
+            IFD0: {
+              ImageDescription: `${topic.label} quote by ${quote.author}: “${quote.text}”`,
+              Copyright: "© 2026 Quotes.org.in. Original artwork; quotation text is public domain.",
+              Artist: "Quotes.org.in editorial studio with OpenAI image generation",
+            },
           },
-        },
-      })
-      .toFile(imagePath);
+        })
+        .toFile(imagePath);
+    }
 
     manifest.push({
       collection: topic.slug,
