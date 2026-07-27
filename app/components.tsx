@@ -50,7 +50,8 @@ export function QuoteCard({ quote, featured = false }: { quote: Quote; featured?
   return (
     <article className={`quote-card ${featured ? "featured" : ""}`}>
       <span className="verified">✓ Source verified</span>
-      <blockquote>“{quote.text}”</blockquote>
+      <blockquote lang={quote.languageCode || "en"}>“{quote.text}”</blockquote>
+      {quote.translation && <p className="quote-translation"><strong>English meaning:</strong> {quote.translation}</p>}
       <p className="attribution"><a href={`/authors/${quote.authorSlug}`}>{quote.author}</a></p>
       <p className="source"><cite>{quote.source}</cite> · <a href={quote.sourceUrl} rel="noreferrer">View source</a></p>
       <QuoteActions quote={quote} />
