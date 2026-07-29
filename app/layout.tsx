@@ -15,7 +15,7 @@ const lora = Lora({
 export const metadata: Metadata = {
   metadataBase: new URL("https://quotes.org.in"),
   title: {
-    default: "Quotes.org.in — Verified Quotes, Sources & Original Images",
+    default: "Verified Quotes with Sources | Quotes.org.in",
     template: "%s | Quotes.org.in",
   },
   description: "Discover carefully sourced quotations by topic, mood, occasion and author. Copy, share and create original quote images.",
@@ -24,8 +24,9 @@ export const metadata: Metadata = {
     siteName: "Quotes.org.in",
     title: "Verified words, thoughtfully sourced",
     description: "Discover quotations with transparent attribution, context and original images.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Quotes.org.in — verified words, thoughtfully sourced" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/og.png"] },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

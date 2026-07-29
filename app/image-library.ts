@@ -1,4 +1,5 @@
-import { publicQuotes, topics } from "./data";
+import licensingMetadata from "../public/images/quote-collections/licensing-metadata.json";
+import { publicQuotes } from "./data";
 
 export const collectionImageFormats = [
   { slug: "square", label: "Square", width: 1080, height: 1080 },
@@ -9,13 +10,21 @@ export const collectionImageFormats = [
 ] as const;
 
 export function collectionImages(topicSlug: string) {
-  const topic = topics.find((item) => item.slug === topicSlug);
-  const quote = publicQuotes.find((item) => item.topics.includes(topicSlug));
-  if (!topic || !quote) return [];
-  return collectionImageFormats.map((format) => ({
-    ...format,
-    src: `/images/quote-collections/${topic.slug}-quotes-${quote.authorSlug}-${format.slug}.webp`,
-    alt: `${topic.label} quote by ${quote.author}: “${quote.text}”`,
-    license: "Original artwork © 2026 Quotes.org.in; quotation text public domain",
-  }));
+  return licensingMetadata.assets
+    .filter(
+      (asset) =>
+        asset.collection === topicSlug &&
+        publicQuotes.some((quote) => quote.id === asset.quoteId),
+    )
+    .map((asset) => ({
+      slug: asset.format,
+      label:
+        collectionImageFormats.find((format) => format.slug === asset.format)?.label ??
+        asset.format,
+      width: asset.width,
+      height: asset.height,
+      src: asset.path,
+      alt: asset.alt,
+      license: asset.license,
+    }));
 }

@@ -4,6 +4,7 @@ import { PageShell } from "../site-shell";
 export const metadata: Metadata = {
   title: "Copyright and Image Licensing",
   description: "Licensing terms for Quotes.org.in original quotation artwork and public-domain source text.",
+  alternates: { canonical: "/copyright" },
 };
 
 export default function CopyrightPage() {

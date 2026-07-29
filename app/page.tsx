@@ -1,13 +1,19 @@
+import type { Metadata } from "next";
 import { QuoteCard, SearchBox } from "./components";
-import { authors, quoteForDate, todayUtc, topics } from "./data";
+import { authors, moods, quoteForDate, todayUtc, topics } from "./data";
 import { getPublishedQuotes } from "../db/public";
 import { PageShell } from "./site-shell";
+import { StructuredData } from "./structured-data";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const available = await getPublishedQuotes();
-  const daily = available.length ? available[Math.abs(Math.floor(Date.parse(`${todayUtc()}T00:00:00Z`) / 86_400_000)) % available.length] : quoteForDate(todayUtc());
+  const selected = quoteForDate(todayUtc());
+  const daily = available.find((quote) => quote.normalizedText === selected.normalizedText) ?? selected;
   return (
     <PageShell>
+      <StructuredData data={[{ "@context": "https://schema.org", "@type": "Organization", name: "Quotes.org.in", url: "https://quotes.org.in", logo: "https://quotes.org.in/favicon.svg" }, { "@context": "https://schema.org", "@type": "WebSite", name: "Quotes.org.in", url: "https://quotes.org.in", potentialAction: { "@type": "SearchAction", target: "https://quotes.org.in/search?q={search_term_string}", "query-input": "required name=search_term_string" } }]} />
       <section className="hero">
         <div>
           <p className="eyebrow">Verified words. Thoughtfully sourced.</p>
@@ -34,7 +40,7 @@ export default async function Home() {
 
       <section className="mood-band section">
         <div><p className="eyebrow">Explore by mood</p><h2>How do you want to feel?</h2></div>
-        <div className="pills"><a href="/moods/positive">☀ Positive</a><a href="/moods/reflective">◐ Reflective</a><a href="/topics/strength">◆ Strong</a><a href="/topics/inspirational">✦ Inspired</a></div>
+        <div className="pills">{moods.slice(0, 4).map((mood) => <a href={`/moods/${mood.slug}`} key={mood.slug}>{mood.label}</a>)}</div>
       </section>
 
       <section className="section">
@@ -44,7 +50,7 @@ export default async function Home() {
 
       <section className="create-banner">
         <div><p className="eyebrow">Make it yours</p><h2>Turn a thought into<br />an image worth sharing.</h2><p>Choose a quotation, colour and layout. Preview it instantly and download a clean, original image.</p><a className="button" href="/tools/quote-image-generator">Create a quote image →</a></div>
-        <div className="mini-cards" aria-hidden="true"><div>“Be true.”<small>— Shakespeare</small></div><div>“Find strength.”<small>— Marcus Aurelius</small></div></div>
+        <div className="mini-cards" aria-hidden="true"><div>Source visible<small>Copy · share · save</small></div><div>Your layout<small>Four useful formats</small></div></div>
       </section>
 
       <section className="trust-section section">

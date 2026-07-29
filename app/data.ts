@@ -37,12 +37,12 @@ export const quotes: Quote[] = [
     authorSlug: "marcus-aurelius",
     source: "Meditations, Book 12",
     sourceUrl: "https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_12",
-    verification: "verified-primary-source",
+    verification: "misattributed",
     topics: ["motivational", "life", "strength", "work-motivation", "change"],
     moods: ["positive", "reflective"],
     occasions: ["work"],
-    published: true,
-    rights: "public-domain",
+    published: false,
+    rights: "review-required",
     reviewedAt: "2026-07-20",
   },
   {
@@ -1636,11 +1636,38 @@ export const authors = [
   { slug: "charlotte-bronte", name: "Charlotte Brontë", years: "1816–1855", description: "English novelist and poet whose fiction explores conscience, autonomy and social constraint." },
 ];
 
+export const moods = [
+  { slug: "positive", label: "Positive", note: "Grounded optimism and hopeful perspective" },
+  { slug: "reflective", label: "Reflective", note: "Quiet words for thought and perspective" },
+  { slug: "strong", label: "Strong", note: "Resolve, courage and steadiness" },
+  { slug: "calm", label: "Calm", note: "Words for patience and a quieter mind" },
+  { slug: "grateful", label: "Grateful", note: "Appreciation for people, work and ordinary life" },
+  { slug: "sad", label: "Comforting", note: "Gentle company for difficult moments" },
+].filter((mood) => publicQuotes.some((quote) => quote.moods.includes(mood.slug)));
+
+export const latestReviewDate = publicQuotes.reduce(
+  (latest, quote) => (quote.reviewedAt > latest ? quote.reviewedAt : latest),
+  "2026-01-01",
+);
+
 export function quoteForDate(date: string) {
-  const day = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
-  return publicQuotes[Math.abs(day) % publicQuotes.length];
+  const eligible = publicQuotes.filter((quote) => quote.reviewedAt <= date);
+  const pool = eligible.length ? eligible : publicQuotes;
+  let hash = 2166136261;
+  for (const character of date) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return pool[Math.abs(hash >>> 0) % pool.length];
 }
 
 export function todayUtc() {
   return new Date().toISOString().slice(0, 10);
+}
+
+export function recentDatesUtc(days = 14) {
+  const today = Date.parse(`${todayUtc()}T00:00:00Z`);
+  return Array.from({ length: days }, (_, index) =>
+    new Date(today - index * 86_400_000).toISOString().slice(0, 10),
+  );
 }

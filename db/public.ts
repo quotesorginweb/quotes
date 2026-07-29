@@ -11,13 +11,23 @@ export async function getPublishedQuotes(): Promise<Quote[]> {
       verification: quoteTable.verificationStatus, rights: quoteTable.publicDomainStatus, reviewedAt: quoteTable.reviewedAt,
     }).from(quoteTable).leftJoin(authors, eq(quoteTable.authorId, authors.id)).leftJoin(sourceWorks, eq(quoteTable.sourceWorkId, sourceWorks.id))
       .where(and(eq(quoteTable.publicationStatus, "published"), eq(quoteTable.rightsReviewStatus, "approved")));
-    const mapped: Quote[] = rows.map((row) => ({
-      id: row.id, slug: row.slug, text: row.text, normalizedText: row.normalizedText, author: row.author || "Unknown",
-      authorSlug: row.authorSlug || "unknown", source: row.source || "Source record", sourceUrl: row.sourceUrl || "",
-      verification: row.verification as Quote["verification"], topics: [], moods: [], occasions: [], published: true,
-      rights: row.rights === "public-domain" ? "public-domain" : "review-required", reviewedAt: row.reviewedAt || new Date().toISOString().slice(0, 10),
-    }));
-    return [...mapped, ...seeds.filter((seed) => !mapped.some((row) => row.normalizedText === seed.normalizedText))];
+    return seeds.map((seed) => {
+      const row = rows.find((candidate) => candidate.normalizedText === seed.normalizedText);
+      if (!row) return seed;
+      return {
+        ...seed,
+        id: row.id,
+        slug: row.slug,
+        text: row.text,
+        author: row.author || seed.author,
+        authorSlug: row.authorSlug || seed.authorSlug,
+        source: row.source || seed.source,
+        sourceUrl: row.sourceUrl || seed.sourceUrl,
+        verification: row.verification as Quote["verification"],
+        rights: row.rights === "public-domain" ? "public-domain" : seed.rights,
+        reviewedAt: row.reviewedAt || seed.reviewedAt,
+      };
+    });
   } catch {
     return seeds;
   }

@@ -6,6 +6,13 @@ import {collectionImages} from "../../image-library";
 import {PageShell} from "../../site-shell";
 
 const collectionContext:Record<string,string>={
+  motivational:"Motivation works best when it points toward a specific action rather than promising instant success. These selections bring together discipline, courage, learning and purposeful effort, with the original work visible beside every line.",
+  inspirational:"Inspiration can widen a possibility without erasing the work required to reach it. This collection combines literary, philosophical and Indian voices on learning, freedom, hope and the decision to begin.",
+  life:"Life quotations often lose their meaning when reduced to slogans. These source-checked lines keep their literary or philosophical setting visible while exploring choice, character, change, friendship and attention.",
+  strength:"Strength is not presented here as constant confidence. The collection includes endurance, self-command, moral courage and the willingness to continue through uncertainty, drawn from traceable public-domain works.",
+  "self-love":"Self-love here means self-respect, honest self-knowledge and care rather than flattery. These quotations connect personal dignity with autonomy, boundaries and the work of becoming responsible for one’s own life.",
+  friendship:"Friendship is shown as companionship in action: trust, candour, mutual learning and the obligations created by care. Each selection keeps the speaker, author and work distinct where literary context matters.",
+  kindness:"Kindness can be quiet, demanding or courageous. These verified lines consider mercy, generosity, service and humane conduct without turning compassion into a decorative slogan.",
   gratitude:"Gratitude begins in attention: noticing help, friendship and the ordinary good that habit can make invisible. These public-domain selections move from spoken thanks to Emerson’s harder question of what we do with benefits received. They offer precise language for recognising a gift, remembering a shared life and answering generosity with action.",
   teamwork:"Teamwork is more than agreement or a poster slogan. These verified lines consider comradeship, modest speech, mutual learning and Emerson’s insistence that relationship asks something of us. Together they frame cooperation as dependable action and returning value to the community that helped create it.",
   leadership:"Leadership is treated here as character expressed through action. A dedicated work-focused subgroup highlights modest speech, courage, service and collective purpose.",
