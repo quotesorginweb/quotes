@@ -79,3 +79,10 @@ test("first-party analytics records page events and Core Web Vitals", async () =
   assert.match(route, /siteEvents/);
   assert.match(schema, /site_events/);
 });
+
+test("www requests permanently redirect to the canonical apex host", async () => {
+  const worker = await read("../worker/index.ts");
+  assert.match(worker, /url\.hostname === "www\.quotes\.org\.in"/);
+  assert.match(worker, /url\.hostname = "quotes\.org\.in"/);
+  assert.match(worker, /Response\.redirect\(url\.toString\(\), 301\)/);
+});
