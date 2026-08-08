@@ -1,0 +1,9 @@
+﻿quotes-site-v26.tar.gz
+outputs
+dist
+.vinext
+.wrangler
+.next
+node_modules
+.vercel
+.env*

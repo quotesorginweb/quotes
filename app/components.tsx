@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Quote } from "./data";
+import { editorialEmail } from "./site-config";
 
 export function SearchBox({ compact = false }: { compact?: boolean }) {
   const [query, setQuery] = useState("");
@@ -63,7 +64,7 @@ export function QuoteActions({ quote }: { quote: Quote }) {
   );
 }
 
-export function QuoteCard({ quote, featured = false }: { quote: Quote; featured?: boolean }) {
+export function QuoteCard({ quote, featured = false, detailLink = true }: { quote: Quote; featured?: boolean; detailLink?: boolean }) {
   return (
     <article className={`quote-card ${featured ? "featured" : ""}`}>
       <span className="verified">✓ Source verified</span>
@@ -71,6 +72,10 @@ export function QuoteCard({ quote, featured = false }: { quote: Quote; featured?
       {quote.translation && <p className="quote-translation"><strong>English meaning:</strong> {quote.translation}</p>}
       <p className="attribution"><a href={`/authors/${quote.authorSlug}`}>{quote.author}</a></p>
       <p className="source"><cite>{quote.source}</cite> · <a href={quote.sourceUrl} rel="noreferrer">View source</a></p>
+      <p className="quote-links">
+        {detailLink && <><a className="text-link" href={`/quote/${quote.slug}`}>View quote details</a><span aria-hidden="true"> · </span></>}
+        <a className="text-link" href={`/tools/quote-image-generator?quote=${quote.slug}`}>Create an image</a>
+      </p>
       <QuoteActions quote={quote} />
     </article>
   );
@@ -98,9 +103,9 @@ export function CollectionControls({ quotes }: { quotes: Quote[] }) {
   );
 }
 
-export function ImageGenerator({ initialQuote = "Choose the thoughts that help you act with purpose." }: { initialQuote?: string }) {
+export function ImageGenerator({ initialQuote = "Choose the thoughts that help you act with purpose.", initialAuthor = "Your name" }: { initialQuote?: string; initialAuthor?: string }) {
   const [text, setText] = useState(initialQuote);
-  const [author, setAuthor] = useState("Your name");
+  const [author, setAuthor] = useState(initialAuthor);
   const [theme, setTheme] = useState("ocean");
   const [align, setAlign] = useState<CanvasTextAlign>("center");
   const [format, setFormat] = useState("square");
@@ -150,11 +155,24 @@ export function ReportForm({ quoteId, context = "quote" }: { quoteId?: string; c
     event.preventDefault();
     setBusy(true); setStatus("");
     const values = Object.fromEntries(new FormData(event.currentTarget));
-    const response = await fetch("/api/reports", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(values) });
-    const result = await response.json() as { error?: string; id?: string };
+    const quoteReference = String(values.quoteId || "").trim();
+    const reason = String(values.reason || "General enquiry").replaceAll("-", " ");
+    const message = String(values.suggestedCorrection || "").trim();
+    const evidence = String(values.sourceEvidence || "").trim();
+    const replyTo = String(values.reporterEmail || "").trim();
+    const subject = context === "contact"
+      ? `Quotes.org.in enquiry: ${reason}`
+      : `Quotation report${quoteReference ? `: ${quoteReference}` : ""}`;
+    const body = [
+      `Reason: ${reason}`,
+      quoteReference ? `Quote or page: ${quoteReference}` : "",
+      message ? `Message:\n${message}` : "",
+      evidence ? `Source evidence: ${evidence}` : "",
+      replyTo ? `Reply to: ${replyTo}` : "",
+    ].filter(Boolean).join("\n\n");
+    window.location.href = `mailto:${editorialEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setBusy(false);
-    setStatus(response.ok ? `Report received. Reference ${result.id}.` : result.error ?? "Unable to submit report.");
-    if (response.ok) event.currentTarget.reset();
+    setStatus("Your email application should open with the message ready to send.");
   };
   return <form className="generator-controls" onSubmit={submit}>
     <label>{context === "contact" ? "Quote ID or page (optional)" : "Quote ID"}<input name="quoteId" defaultValue={quoteId} readOnly={Boolean(quoteId)} required={context === "quote"} /></label>
@@ -163,8 +181,8 @@ export function ReportForm({ quoteId, context = "quote" }: { quoteId?: string; c
     <label>Source evidence<input name="sourceEvidence" type="url" maxLength={1000} placeholder="https://…" /></label>
     <label>Email (optional)<input name="reporterEmail" type="email" maxLength={254} /></label>
     <label className="website-field" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-    <button className="primary" disabled={busy}>{busy ? "Submitting…" : "Submit report"}</button>
-    <p className="fine-print">We use these details only to review and respond to your message. See our <a className="text-link" href="/privacy">privacy notice</a>.</p>
+    <button className="primary" disabled={busy}>{busy ? "Opening email…" : "Continue in email"}</button>
+    <p className="fine-print">Nothing is uploaded by this form. Your email application opens so you can review the message before sending. See our <a className="text-link" href="/privacy">privacy notice</a>.</p>
     <p role="status" aria-live="polite">{status}</p>
   </form>;
 }

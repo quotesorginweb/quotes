@@ -50,8 +50,9 @@ h2 { font-size:clamp(32px,4vw,52px); line-height:1.15; letter-spacing:-.035em; m
 .verified { display:inline-block; color:#076e61; background:#e5f5f0; padding:6px 9px; border-radius:99px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; }
 blockquote { margin:24px 0 18px; font-size:clamp(25px,3vw,40px); line-height:1.4; }
 .attribution { margin:0; font-weight:800; color:var(--navy); }
-.source { margin:6px 0 22px; color:var(--muted); font-size:13px; }
+.source { margin:6px 0 10px; color:var(--muted); font-size:13px; }
 .source a { text-decoration:underline; }
+.quote-links { margin:0 0 18px; color:var(--muted); font-size:13px; }
 .quote-actions { display:flex; flex-wrap:wrap; gap:8px; border-top:1px solid var(--border); padding-top:16px; }
 .quote-actions button,.quote-actions>a,.generator button { border:1px solid #bfcdd6; color:#24465e; background:#fff; border-radius:6px; padding:8px 12px; font-size:13px; font-weight:650; }
 .quote-actions button[aria-pressed="true"] { background:#e5f5f0; border-color:#6fb9ad; color:#076e61; }

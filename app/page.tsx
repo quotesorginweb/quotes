@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { QuoteCard, SearchBox } from "./components";
 import { authors, moods, quoteForDate, todayUtc, topics } from "./data";
-import { getPublishedQuotes } from "../db/public";
 import { PageShell } from "./site-shell";
 import { StructuredData } from "./structured-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
-  const available = await getPublishedQuotes();
-  const selected = quoteForDate(todayUtc());
-  const daily = available.find((quote) => quote.normalizedText === selected.normalizedText) ?? selected;
+  const daily = quoteForDate(todayUtc());
   return (
     <PageShell>
       <StructuredData data={[{ "@context": "https://schema.org", "@type": "Organization", name: "Quotes.org.in", url: "https://quotes.org.in", logo: "https://quotes.org.in/favicon.svg" }, { "@context": "https://schema.org", "@type": "WebSite", name: "Quotes.org.in", url: "https://quotes.org.in", potentialAction: { "@type": "SearchAction", target: "https://quotes.org.in/search?q={search_term_string}", "query-input": "required name=search_term_string" } }]} />
@@ -41,6 +38,14 @@ export default async function Home() {
       <section className="mood-band section">
         <div><p className="eyebrow">Explore by mood</p><h2>How do you want to feel?</h2></div>
         <div className="pills">{moods.slice(0, 4).map((mood) => <a href={`/moods/${mood.slug}`} key={mood.slug}>{mood.label}</a>)}</div>
+      </section>
+
+      <section className="section">
+        <div className="section-head"><div><p className="eyebrow">Indian voices and languages</p><h2>Read the words with their context intact.</h2></div><a href="/indian-quotes">Explore Indian quotes →</a></div>
+        <div className="card-grid">
+          <a className="index-card" href="/indian-quotes"><h3>Indian quotes</h3><p>Verified poetry, philosophy and source texts from Indian voices, with editions and translators kept visible.</p><b>Browse the collection →</b></a>
+          <a className="index-card" href="/hindi-quotes"><h3>Hindi quotes with English meanings</h3><p>Source-checked Devanagari dohas with clearly labelled editorial meanings.</p><b>Read in Hindi →</b></a>
+        </div>
       </section>
 
       <section className="section">

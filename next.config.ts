@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: process.cwd(),
+  turbopack: { root: process.cwd() },
+  typescript: { tsconfigPath: "tsconfig.vercel.json" },
   async headers() {
     return [{
       source: "/:path*",
