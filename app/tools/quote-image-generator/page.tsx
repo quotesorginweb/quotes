@@ -5,7 +5,7 @@ import { PageShell } from "../../site-shell";
 
 export const metadata: Metadata = {
   title: "Free Quote Image Generator",
-  description: "Create and download a custom quote image in your browser.",
+  description: "Create and download a custom quote image in your browser using verified quotations, accessible layouts and multiple sharing formats.",
   alternates: { canonical: "/tools/quote-image-generator" },
 };
 

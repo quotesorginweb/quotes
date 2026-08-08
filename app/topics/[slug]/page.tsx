@@ -5,6 +5,8 @@ import { publicQuotes, topics } from "../../data";
 import { collectionImages } from "../../image-library";
 import { RelatedCollections } from "../../related-collections";
 import { PageShell } from "../../site-shell";
+import { collectionPageData, StructuredData } from "../../structured-data";
+import { topicSeo } from "../../seo-content";
 
 const collectionContext: Record<string, string> = {
   motivational:
@@ -83,9 +85,7 @@ export async function generateMetadata({
     "inspirational-women":
       "Verified inspirational quotes for women from Sarojini Naidu, Louisa May Alcott and Charlotte Brontë, with exact wording and literary context.",
   };
-  const title =
-    specialTitles[slug] ||
-    `${topic.label} Quotes: Verified Sayings and Sources`;
+  const title = topicSeo[slug]?.title || specialTitles[slug] || `${topic.label} Quotes with Verified Sources`;
   const description =
     specialDescriptions[slug] ||
     `A curated collection of verified ${topic.label.toLowerCase()} quotes with authors and source notes.`;
@@ -127,6 +127,19 @@ export default async function TopicPage({
   const heading = specialHeadings[slug] || `${topic.label} quotes`;
   return (
     <PageShell>
+      <StructuredData
+        data={collectionPageData({
+          name: `${topic.label} quotes`,
+          path: `/topics/${slug}`,
+          description: collectionContext[slug] || topic.note,
+          items: selected.map((quote) => ({ name: `${quote.text} — ${quote.author}`, path: `/quote/${quote.slug}` })),
+          breadcrumbs: [
+            { name: "Home", path: "/" },
+            { name: "Topics", path: "/topics" },
+            { name: topic.label, path: `/topics/${slug}` },
+          ],
+        })}
+      />
       <section className="page-hero">
         <div className="breadcrumbs">
           <a href="/">Home</a> / <a href="/topics">Topics</a> / {topic.label}

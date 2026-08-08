@@ -5,6 +5,8 @@ import { occasionCollections } from "../../editorial-content";
 import { occasionReadiness } from "../../occasion-readiness";
 import { PageShell } from "../../site-shell";
 import { RelatedCollections } from "../../related-collections";
+import { collectionPageData, StructuredData } from "../../structured-data";
+import { occasionSeo } from "../../seo-content";
 
 export function generateStaticParams() {
   return occasionCollections.filter(({ slug }) => occasionReadiness(slug).publishable).map(({ slug }) => ({ slug }));
@@ -14,9 +16,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const { item, publishable } = occasionReadiness(slug);
   if (!item || !publishable) return {};
+  const seo = occasionSeo[slug];
   return {
-    title: `${item.label} Quotes: Verified Words for the Occasion`,
-    description: item.intro,
+    title: seo?.title || `${item.label} Quotes with Verified Sources`,
+    description: seo?.description || item.intro,
     robots: { index: publishable, follow: true },
     alternates: { canonical: `/occasions/${slug}` },
   };
@@ -28,6 +31,17 @@ export default async function OccasionPage({ params }: { params: Promise<{ slug:
   if (!item || !publishable) notFound();
 
   return <PageShell>
+    <StructuredData data={collectionPageData({
+      name: `${item.label} quotes`,
+      path: `/occasions/${slug}`,
+      description: item.intro,
+      items: quotes.map((quote) => ({ name: `${quote.text} — ${quote.author}`, path: `/quote/${quote.slug}` })),
+      breadcrumbs: [
+        { name: "Home", path: "/" },
+        { name: "Occasions", path: "/occasions" },
+        { name: item.label, path: `/occasions/${slug}` },
+      ],
+    })} />
     <section className="page-hero occasion-hero">
       <div className="breadcrumbs"><a href="/">Home</a> / <a href="/occasions">Occasions</a> / {item.label}</div>
       <p className="eyebrow">Published verified collection</p>

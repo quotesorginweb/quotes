@@ -5,13 +5,14 @@ import { moods, publicQuotes } from "../../data";
 import { PageShell } from "../../site-shell";
 import { breadcrumbData, StructuredData } from "../../structured-data";
 import { RelatedCollections } from "../../related-collections";
+import { moodDescriptions } from "../../seo-content";
 
 export function generateStaticParams() { return moods.map(({ slug }) => ({ slug })); }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const mood = moods.find((item) => item.slug === slug);
-  return mood ? { title: `${mood.label} Quotes with Sources`, description: mood.note, alternates: { canonical: `/moods/${slug}` } } : {};
+  return mood ? { title: `${mood.label} Quotes with Sources`, description: moodDescriptions[slug] || mood.note, alternates: { canonical: `/moods/${slug}` } } : {};
 }
 
 export default async function MoodPage({ params }: { params: Promise<{ slug: string }> }) {

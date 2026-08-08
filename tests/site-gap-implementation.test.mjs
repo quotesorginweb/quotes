@@ -50,3 +50,32 @@ test("search covers source, translation, mood, occasion and language fields", as
     assert.ok(search.includes(field));
   }
 });
+
+test("every public quotation maps to a source-work record", async () => {
+  const data = await read("../app/data.ts");
+  const sources = await read("../app/source-works.ts");
+  assert.match(sources, /"Henry V"/);
+  assert.match(sources, /"Shakespeare’s Sonnets"/);
+  assert.match(sources, /"The Complete Works"/);
+  assert.match(sources, /"कविता-कौमुदी १"/);
+  assert.match(data, /slug: "bura-jo-dekhan-main-chala-hindi"/);
+});
+
+test("indexed collection templates emit collection and list schema", async () => {
+  const structured = await read("../app/structured-data.tsx");
+  const topics = await read("../app/topics/[slug]/page.tsx");
+  const occasions = await read("../app/occasions/[slug]/page.tsx");
+  assert.match(structured, /"@type": "CollectionPage"/);
+  assert.match(structured, /"@type": "ItemList"/);
+  assert.match(topics, /collectionPageData/);
+  assert.match(occasions, /collectionPageData/);
+});
+
+test("first-party analytics records page events and Core Web Vitals", async () => {
+  const analytics = await read("../app/analytics.tsx");
+  const route = await read("../app/api/analytics/route.ts");
+  const schema = await read("../db/schema.ts");
+  for (const metric of ["LCP", "CLS", "INP", "FCP", "TTFB"]) assert.ok(analytics.includes(`\"${metric}\"`));
+  assert.match(route, /siteEvents/);
+  assert.match(schema, /site_events/);
+});

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { index, integer, real, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 const timestamps = {
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
@@ -140,3 +140,28 @@ export const auditLog = sqliteTable("audit_log", {
   reason: text("reason"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 }, (table) => [index("audit_entity_idx").on(table.entityType, table.entityId, table.createdAt)]);
+
+export const siteEvents = sqliteTable("site_events", {
+  id: text("id").primaryKey(),
+  eventName: text("event_name").notNull(),
+  path: text("path").notNull(),
+  propertiesJson: text("properties_json").notNull().default("{}"),
+  metricValue: real("metric_value"),
+  metricRating: text("metric_rating"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+}, (table) => [
+  index("site_events_name_created_idx").on(table.eventName, table.createdAt),
+  index("site_events_path_created_idx").on(table.path, table.createdAt),
+]);
+
+export const publicMessages = sqliteTable("public_messages", {
+  id: text("id").primaryKey(),
+  context: text("context", { enum: ["quote", "contact"] }).notNull(),
+  quoteReference: text("quote_reference"),
+  reason: text("reason").notNull(),
+  message: text("message"),
+  sourceEvidence: text("source_evidence"),
+  reporterEmail: text("reporter_email"),
+  status: text("status").notNull().default("open"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+}, (table) => [index("public_messages_status_created_idx").on(table.status, table.createdAt)]);

@@ -12,8 +12,17 @@ declare global {
 }
 
 function track(event: string, properties: Record<string, string>) {
+  window.quotesTrack?.(event, properties);
   window.plausible?.(event, { props: properties });
   window.umami?.track(event, properties);
+}
+
+export function SearchAnalytics({ query, resultCount }: { query: string; resultCount: number }) {
+  useEffect(() => {
+    if (!query) return;
+    track("search", { query: query.slice(0, 120), resultCount: String(resultCount), zeroResults: String(resultCount === 0) });
+  }, [query, resultCount]);
+  return null;
 }
 
 export function SearchBox({ compact = false }: { compact?: boolean }) {
@@ -148,7 +157,7 @@ export function ImageGenerator({ initialQuote = "Choose the thoughts that help y
     ctx.font = "16px Arial"; ctx.globalAlpha = .78; ctx.textAlign = "center"; ctx.fillText("Created with Quotes.org.in · user-entered text is unverified", canvas.width / 2, canvas.height - 36); ctx.globalAlpha = 1;
   };
   useEffect(draw, [text, author, theme, align, format]);
-  const download = () => { draw(); const link = document.createElement("a"); link.download = "quotes-org-in-card.png"; link.href = canvasRef.current!.toDataURL("image/png"); link.click(); };
+  const download = () => { draw(); const link = document.createElement("a"); link.download = "quotes-org-in-card.png"; link.href = canvasRef.current!.toDataURL("image/png"); link.click(); track("image_export", { format, theme }); };
   return (
     <div className="generator">
       <div className="generator-controls">
@@ -171,7 +180,8 @@ export function ReportForm({ quoteId, context = "quote" }: { quoteId?: string; c
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setBusy(true); setStatus("");
-    const values = Object.fromEntries(new FormData(event.currentTarget));
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form));
     const quoteReference = String(values.quoteId || "").trim();
     const reason = String(values.reason || "General enquiry").replaceAll("-", " ");
     const message = String(values.suggestedCorrection || "").trim();
@@ -187,9 +197,22 @@ export function ReportForm({ quoteId, context = "quote" }: { quoteId?: string; c
       evidence ? `Source evidence: ${evidence}` : "",
       replyTo ? `Reply to: ${replyTo}` : "",
     ].filter(Boolean).join("\n\n");
-    window.location.href = `mailto:${editorialEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setBusy(false);
-    setStatus("Your email application should open with the message ready to send.");
+    try {
+      const response = await fetch("/api/reports", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...values, context }),
+      });
+      const result = await response.json() as { caseId?: string; error?: string };
+      if (!response.ok || !result.caseId) throw new Error(result.error || "Report unavailable");
+      form.reset();
+      setStatus(`Received. Your case ID is ${result.caseId}. Keep it for follow-up.`);
+    } catch {
+      window.location.href = `mailto:${editorialEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setStatus("Online receipt was unavailable, so your email application should open with the message ready to send.");
+    } finally {
+      setBusy(false);
+    }
   };
   return <form className="generator-controls" onSubmit={submit}>
     <label>{context === "contact" ? "Quote ID or page (optional)" : "Quote ID"}<input name="quoteId" defaultValue={quoteId} readOnly={Boolean(quoteId)} required={context === "quote"} /></label>
@@ -198,8 +221,8 @@ export function ReportForm({ quoteId, context = "quote" }: { quoteId?: string; c
     <label>Source evidence<input name="sourceEvidence" type="url" maxLength={1000} placeholder="https://…" /></label>
     <label>Email (optional)<input name="reporterEmail" type="email" maxLength={254} /></label>
     <label className="website-field" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-    <button className="primary" disabled={busy}>{busy ? "Opening email…" : "Continue in email"}</button>
-    <p className="fine-print">Nothing is uploaded by this form. Your email application opens so you can review the message before sending. See our <a className="text-link" href="/privacy">privacy notice</a>.</p>
+    <button className="primary" disabled={busy}>{busy ? "Sending…" : "Send securely"}</button>
+    <p className="fine-print">The message is stored for editorial follow-up and you receive a case ID. If online receipt is unavailable, the form falls back to your email application. See our <a className="text-link" href="/privacy">privacy notice</a>.</p>
     <p role="status" aria-live="polite">{status}</p>
   </form>;
 }

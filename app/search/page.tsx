@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { QuoteCard } from "../components";
+import { QuoteCard, SearchAnalytics } from "../components";
 import { authors, publicQuotes, topics } from "../data";
 import { PageShell } from "../site-shell";
 
@@ -23,6 +23,7 @@ export default async function Search({ searchParams }: { searchParams: Promise<{
   ].join(" ")).includes(needle)).slice(0, 50) : [];
 
   return <PageShell>
+    <SearchAnalytics query={q} resultCount={results.length} />
     <section className="page-hero">
       <div className="breadcrumbs"><a href="/">Home</a> / Search</div>
       <p className="eyebrow">Search the collection</p>

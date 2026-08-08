@@ -15,6 +15,13 @@
       "when": 1784966854198,
       "tag": "0001_fearless_black_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1786219929360,
+      "tag": "0002_messy_the_anarchist",
+      "breakpoints": true
     }
   ]
 }

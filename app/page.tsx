@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { QuoteCard, SearchBox } from "./components";
 import { authors, moods, quoteForDate, todayUtc, topics } from "./data";
 import { PageShell } from "./site-shell";
-import { StructuredData } from "./structured-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -10,7 +9,6 @@ export default async function Home() {
   const daily = quoteForDate(todayUtc());
   return (
     <PageShell>
-      <StructuredData data={[{ "@context": "https://schema.org", "@type": "Organization", name: "Quotes.org.in", url: "https://quotes.org.in", logo: "https://quotes.org.in/favicon.svg" }, { "@context": "https://schema.org", "@type": "WebSite", name: "Quotes.org.in", url: "https://quotes.org.in", potentialAction: { "@type": "SearchAction", target: "https://quotes.org.in/search?q={search_term_string}", "query-input": "required name=search_term_string" } }]} />
       <section className="hero">
         <div>
           <p className="eyebrow">Verified words. Thoughtfully sourced.</p>

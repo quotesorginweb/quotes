@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "./analytics";
+import { StructuredData } from "./structured-data";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
@@ -40,6 +41,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <a className="skip-link" href="#main">Skip to main content</a>
+        <StructuredData data={[
+          { "@context": "https://schema.org", "@type": "Organization", name: "Quotes.org.in", url: "https://quotes.org.in", logo: "https://quotes.org.in/favicon.svg" },
+          { "@context": "https://schema.org", "@type": "WebSite", name: "Quotes.org.in", url: "https://quotes.org.in", potentialAction: { "@type": "SearchAction", target: "https://quotes.org.in/search?q={search_term_string}", "query-input": "required name=search_term_string" } },
+        ]} />
         {children}
         <Analytics />
       </body>

@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import { occasionCollections } from "../editorial-content";
 import { occasionReadiness } from "../occasion-readiness";
 import { PageShell } from "../site-shell";
+import { collectionPageData, StructuredData } from "../structured-data";
 
-export const metadata: Metadata = { title: "Quotes by Occasion", description: "Find carefully sourced quotations for milestones, celebrations and seasonal moments.", alternates: { canonical: "/occasions" } };
+const description = "Find carefully sourced quotations for birthdays, weddings, graduation and seasonal moments, with guidance for adding your own message.";
+export const metadata: Metadata = { title: "Quotes by Occasion", description, alternates: { canonical: "/occasions" } };
 
 export default function Occasions() {
   const collections = occasionCollections.map((item) => ({ item, readiness: occasionReadiness(item.slug) }));
   const published = collections.filter(({ readiness }) => readiness.publishable);
   return <PageShell>
+    <StructuredData data={collectionPageData({name:"Quotes by occasion",path:"/occasions",description,items:published.map(({item})=>({name:item.label,path:`/occasions/${item.slug}`})),breadcrumbs:[{name:"Home",path:"/"},{name:"Occasions",path:"/occasions"}]})} />
     <section className="page-hero"><div className="breadcrumbs"><a href="/">Home</a> / Occasions</div><p className="eyebrow">Messages for meaningful moments</p><h1>Quotes by occasion</h1><p>Use a verified quotation to support your own words. Only complete, source-checked collections appear here.</p></section>
     <section className="content">
       <div className="section-head"><div><p className="eyebrow">Ready to use</p><h2>Published collections</h2></div><span>{published.length} collections meet the standard</span></div>

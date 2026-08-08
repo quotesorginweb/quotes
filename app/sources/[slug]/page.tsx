@@ -5,9 +5,10 @@ import { RelatedCollections } from "../../related-collections";
 import { quotesForSourceWork, sourceWorks } from "../../source-works";
 import { PageShell } from "../../site-shell";
 import { breadcrumbData, StructuredData } from "../../structured-data";
+import { sourceSeoTitles } from "../../seo-content";
 
 export function generateStaticParams() { return sourceWorks.map(({ slug }) => ({ slug })); }
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const { slug } = await params; const work = sourceWorks.find((item) => item.slug === slug); return work ? { title: `${work.title} Quotes and Source`, description: work.description, alternates: { canonical: `/sources/${slug}` } } : {}; }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const { slug } = await params; const work = sourceWorks.find((item) => item.slug === slug); return work ? { title: sourceSeoTitles[slug] || `${work.title} Quotes`, description: work.description, alternates: { canonical: `/sources/${slug}` } } : {}; }
 
 export default async function SourceWorkPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
