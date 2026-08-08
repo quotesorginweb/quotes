@@ -7,10 +7,10 @@ export function Header() {
   ];
   return (
     <header className="site-header">
-      <a className="brand" href="/" aria-label="Quotes.org.in home"><span>Q</span> Quotes<small>.org.in</small></a>
+      <a className="brand" href="/"><span>Q</span> Quotes<small>.org.in</small></a>
       <nav aria-label="Main navigation">{links.map(([href, label]) => <a href={href} key={href}>{label}</a>)}</nav>
       <SearchBox compact />
-      <details className="mobile-menu" suppressHydrationWarning><summary aria-label="Open navigation">Menu</summary><div>{links.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<SearchBox compact /></div></details>
+      <details className="mobile-menu" suppressHydrationWarning><summary>Menu</summary><div>{links.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<SearchBox compact /></div></details>
     </header>
   );
 }

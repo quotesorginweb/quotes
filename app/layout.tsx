@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Lora } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "./analytics";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://quotes.org.in"),
@@ -49,9 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${lora.variable}`}
-      >
+      <body>
         <a className="skip-link" href="#main">Skip to main content</a>
         {children}
         <Analytics />

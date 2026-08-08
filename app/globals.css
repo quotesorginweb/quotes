@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-:root { --navy:#102a43; --blue:#175cd3; --teal:#066c76; --cream:#f8f5ee; --gold:#e9a23b; --ink:#172b3a; --muted:#5e7182; --border:#dce4e8; }
+:root { --navy:#102a43; --blue:#175cd3; --teal:#066c76; --cream:#f8f5ee; --gold:#e9a23b; --ink:#172b3a; --muted:#5e7182; --border:#dce4e8; --font-geist-sans:"Segoe UI",Arial,sans-serif; --font-lora:Georgia,"Times New Roman",serif; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body { margin:0; background:#fff; color:var(--ink); font-family:var(--font-geist-sans),Arial,sans-serif; }
+body { margin:0; background:#fff; color:var(--ink); font-family:var(--font-geist-sans); }
 a { color:inherit; text-decoration:none; }
 button,input,select,textarea { font:inherit; }
 button,.button { cursor:pointer; }
@@ -29,7 +29,7 @@ nav a:hover,.text-link:hover,.section-head>a:hover { color:var(--blue); }
 .search-box.compact button { display:none; }
 .hero { min-height:620px; display:grid; grid-template-columns:1.08fr .92fr; align-items:center; gap:5vw; padding:70px clamp(24px,7vw,110px) 82px; background:linear-gradient(110deg,#fbfaf6 0%,#fff 57%,#eef8f7 100%); overflow:hidden; }
 .eyebrow { margin:0 0 17px; color:var(--teal); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:800; }
-h1,h2,blockquote { font-family:var(--font-lora),Georgia,serif; color:var(--navy); }
+h1,h2,blockquote { font-family:var(--font-lora); color:var(--navy); }
 h1 { font-size:clamp(42px,5vw,70px); line-height:1.08; letter-spacing:-.045em; margin:0 0 22px; }
 h1 em { color:var(--teal); font-weight:400; }
 .lede { font-size:18px; line-height:1.65; color:var(--muted); max-width:640px; margin:0 0 30px; }

@@ -32,7 +32,7 @@ export default async function Home() {
 
       <section className="section">
         <div className="section-head"><div><p className="eyebrow">Explore by topic</p><h2>Words for where you are.</h2></div><a href="/topics">View all topics →</a></div>
-        <div className="topic-grid">{topics.map((topic, i) => <a className={`topic-card ${topic.color}`} href={`/topics/${topic.slug}`} key={topic.slug}><span>0{i + 1}</span><h3>{topic.label}</h3><p>{topic.note}</p><b>Explore collection →</b></a>)}</div>
+        <div className="topic-grid">{topics.slice(0, 10).map((topic, i) => <a className={`topic-card ${topic.color}`} href={`/topics/${topic.slug}`} key={topic.slug}><span>0{i + 1}</span><h3>{topic.label}</h3><p>{topic.note}</p><b>Explore collection →</b></a>)}</div>
       </section>
 
       <section className="mood-band section">
@@ -52,7 +52,7 @@ export default async function Home() {
 
       <section className="section">
         <div className="section-head"><div><p className="eyebrow">Featured authors</p><h2>Meet the voices behind the words.</h2></div><a href="/authors">Browse all authors →</a></div>
-        <div className="author-grid">{authors.map((author) => <a href={`/authors/${author.slug}`} key={author.slug}><div className="monogram">{author.name.split(" ").map((n) => n[0]).join("")}</div><h3>{author.name}</h3><p>{author.years}</p><span>{author.description}</span></a>)}</div>
+        <div className="author-grid">{authors.slice(0, 6).map((author) => <a href={`/authors/${author.slug}`} key={author.slug}><div className="monogram">{author.name.split(" ").map((n) => n[0]).join("")}</div><h3>{author.name}</h3><p>{author.years}</p><span>{author.description}</span></a>)}</div>
       </section>
 
       <section className="create-banner">
