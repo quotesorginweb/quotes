@@ -5,6 +5,7 @@ import { moods, publicQuotes } from "../../data";
 import { occasionReadiness } from "../../occasion-readiness";
 import { PageShell } from "../../site-shell";
 import { breadcrumbData, StructuredData } from "../../structured-data";
+import { sourceWorkForQuote } from "../../source-works";
 
 export function generateStaticParams() { return publicQuotes.map(({ slug }) => ({ slug })); }
 
@@ -32,6 +33,7 @@ export default async function QuotePage({ params }: { params: Promise<{ slug: st
     .filter((readiness) => readiness.publishable && readiness.item)
     .map((readiness) => readiness.item!);
   const relatedQuotes = publicQuotes.filter((candidate) => candidate.id !== quote.id && candidate.topics.some((topic) => quote.topics.includes(topic))).slice(0, 3);
+  const sourceWork = sourceWorkForQuote(quote.source);
   const schema = {
     "@context": "https://schema.org",
     "@type": "Quotation",
@@ -53,6 +55,8 @@ export default async function QuotePage({ params }: { params: Promise<{ slug: st
       <h2>Context and related collections</h2>
       <p>This wording is published from <cite>{quote.source}</cite>. Follow the source link above to read it in context.</p>
       <div className="pills">
+        {sourceWork && <a href={`/sources/${sourceWork.slug}`}>{sourceWork.title} source record</a>}
+        {quote.occasions.some((occasion) => ["wedding", "anniversary", "valentines-day"].includes(occasion)) && <a href="/love-quotes">Love quotes</a>}
         {quote.topics.map((topic) => <a href={`/topics/${topic}`} key={topic}>{topic.replaceAll("-", " ")}</a>)}
         {relatedMoods.map((mood) => <a href={`/moods/${mood.slug}`} key={`mood-${mood.slug}`}>{mood.label} mood</a>)}
         {relatedOccasions.map((occasion) => <a href={`/occasions/${occasion.slug}`} key={`occasion-${occasion.slug}`}>{occasion.label}</a>)}

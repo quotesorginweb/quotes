@@ -12,7 +12,7 @@ export function generateStaticParams() { return recentDatesUtc(30).map((date) =>
 
 export async function generateMetadata({ params }: { params: Promise<{ date: string }> }): Promise<Metadata> {
   const { date } = await params;
-  return validDate(date) ? { title: `Quote of the Day for ${formatDate(date)}`, description: `The verified daily quotation for ${formatDate(date)}, with source and attribution.`, alternates: { canonical: `/quote-of-the-day/${date}` } } : {};
+  return validDate(date) ? { title: `Quote of the Day for ${formatDate(date)}`, description: `The verified daily quotation for ${formatDate(date)}, with source and attribution.`, robots: { index: false, follow: true }, alternates: { canonical: "/quote-of-the-day" } } : {};
 }
 
 export default async function DailyDate({ params }: { params: Promise<{ date: string }> }) {

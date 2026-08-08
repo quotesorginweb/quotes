@@ -4,6 +4,7 @@ import { CollectionControls } from "../../components";
 import { occasionCollections } from "../../editorial-content";
 import { occasionReadiness } from "../../occasion-readiness";
 import { PageShell } from "../../site-shell";
+import { RelatedCollections } from "../../related-collections";
 
 export function generateStaticParams() {
   return occasionCollections.filter(({ slug }) => occasionReadiness(slug).publishable).map(({ slug }) => ({ slug }));
@@ -36,6 +37,7 @@ export default async function OccasionPage({ params }: { params: Promise<{ slug:
       <p><small>{quotes.length} source-checked quotations</small></p>
     </section>
     <section className="content">
+      <RelatedCollections quotes={quotes} excludeOccasion={slug} />
       <CollectionControls quotes={quotes} />
       <section className="occasion-writing-guide">
         <div><p className="eyebrow">Make it personal</p><h2>A quotation should support your message.</h2></div>

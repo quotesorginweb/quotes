@@ -3,6 +3,7 @@ import { CollectionControls } from "../components";
 import { authors, publicQuotes } from "../data";
 import { PageShell } from "../site-shell";
 import { breadcrumbData, StructuredData } from "../structured-data";
+import { RelatedCollections } from "../related-collections";
 
 export const metadata: Metadata = {
   title: "Indian Quotes with Verified Sources",
@@ -32,6 +33,7 @@ export default function IndianQuotesPage() {
         <div className="pills">{indianAuthors.map((author) => <a href={`/authors/${author.slug}`} key={author.slug}>{author.name}</a>)}</div>
         <p>For Devanagari text and English meanings together, continue to the <a className="text-link" href="/hindi-quotes">Hindi quotes collection</a>.</p>
       </aside>
+      <RelatedCollections quotes={selected} />
       <CollectionControls quotes={selected} />
     </section>
   </PageShell>;

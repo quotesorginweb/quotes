@@ -4,6 +4,18 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Quote } from "./data";
 import { editorialEmail } from "./site-config";
 
+declare global {
+  interface Window {
+    plausible?: (event: string, options?: { props?: Record<string, string> }) => void;
+    umami?: { track: (event: string, properties?: Record<string, string>) => void };
+  }
+}
+
+function track(event: string, properties: Record<string, string>) {
+  window.plausible?.(event, { props: properties });
+  window.umami?.track(event, properties);
+}
+
 export function SearchBox({ compact = false }: { compact?: boolean }) {
   const [query, setQuery] = useState("");
   return (
@@ -19,17 +31,20 @@ export function SearchBox({ compact = false }: { compact?: boolean }) {
 export function QuoteActions({ quote }: { quote: Quote }) {
   const [status, setStatus] = useState("");
   const [saved, setSaved] = useState(false);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     try {
       const values: string[] = JSON.parse(localStorage.getItem("quotes-favourites") || "[]");
-      queueMicrotask(() => setSaved(values.includes(quote.id)));
+      queueMicrotask(() => { setSaved(values.includes(quote.id)); setReady(true); });
     } catch {
       localStorage.removeItem("quotes-favourites");
+      queueMicrotask(() => setReady(true));
     }
   }, [quote.id]);
   const copy = async () => {
     await navigator.clipboard.writeText(`“${quote.text}” — ${quote.author}`);
     setStatus("Quote copied");
+    track("quote_copy", { quote: quote.slug });
   };
   const share = async () => {
     const data = { title: `${quote.author} quote`, text: `“${quote.text}” — ${quote.author}`, url: `${location.origin}/quote/${quote.slug}` };
@@ -43,6 +58,7 @@ export function QuoteActions({ quote }: { quote: Quote }) {
       await navigator.clipboard.writeText(data.url);
       setStatus("Link copied");
     }
+    track("quote_share", { quote: quote.slug });
   };
   const save = () => {
     const key = "quotes-favourites";
@@ -52,12 +68,13 @@ export function QuoteActions({ quote }: { quote: Quote }) {
     setSaved(!saved);
     setStatus(saved ? "Removed from saved quotes" : "Saved on this device");
     window.dispatchEvent(new Event("quotes-saved"));
+    track(saved ? "quote_unsave" : "quote_save", { quote: quote.slug });
   };
   return (
     <div className="quote-actions">
       <button onClick={copy}>Copy</button>
       <button onClick={share}>Share</button>
-      <button onClick={save} aria-pressed={saved}>{saved ? "Saved" : "Save"}</button>
+      <button onClick={save} aria-pressed={saved} disabled={!ready}>{saved ? "Saved" : "Save"}</button>
       <a href={`/report?quote=${quote.id}`}>Report</a>
       <span className="sr-only" role="status" aria-live="polite">{status}</span>
     </div>

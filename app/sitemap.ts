@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { authorReadiness } from "./author-readiness";
-import { authors, latestReviewDate, moods, recentDatesUtc, topics } from "./data";
+import { authors, latestReviewDate, moods, topics } from "./data";
 import { occasionCollections } from "./editorial-content";
 import { occasionReadiness } from "./occasion-readiness";
+import { sourceWorks } from "./source-works";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://quotes.org.in";
@@ -14,25 +15,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .map((author) => `/authors/${author.slug}`);
   const staticPages = [
     "", "/about", "/topics", "/authors", "/moods", "/occasions",
-    "/indian-quotes", "/hindi-quotes", "/quote-of-the-day",
+    "/indian-quotes", "/hindi-quotes", "/love-quotes", "/quote-of-the-day", "/sources",
     "/tools/quote-image-generator", "/editorial-policy", "/verification",
-    "/copyright", "/privacy", "/terms", "/contact",
+    "/corrections", "/copyright", "/privacy", "/terms", "/contact",
   ];
-  const dated = recentDatesUtc(30).map((date) => `/quote-of-the-day/${date}`);
   const urls = [
     ...staticPages,
     ...topics.map((item) => `/topics/${item.slug}`),
     ...indexableAuthors,
     ...moods.map((item) => `/moods/${item.slug}`),
     ...approvedOccasions,
-    ...dated,
+    ...sourceWorks.map((work) => `/sources/${work.slug}`),
   ];
   return urls.map((path) => ({
     url: `${base}${path}`,
-    lastModified: path.startsWith("/quote-of-the-day/")
-      ? new Date(path.split("/").at(-1)!)
-      : new Date(latestReviewDate),
+    lastModified: new Date(latestReviewDate),
     changeFrequency: path === "/quote-of-the-day" ? "daily" : "monthly",
-    priority: path === "" ? 1 : path.startsWith("/quote-of-the-day/") ? 0.6 : 0.7,
+    priority: path === "" ? 1 : 0.7,
   }));
 }

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Lora } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "./analytics";
+
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +35,11 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
+  alternates: { types: { "application/rss+xml": "/rss.xml" } },
+  verification: {
+    ...(googleVerification ? { google: googleVerification } : {}),
+    ...(bingVerification ? { other: { "msvalidate.01": bingVerification } } : {}),
+  },
 };
 
 export default function RootLayout({
@@ -45,6 +54,7 @@ export default function RootLayout({
       >
         <a className="skip-link" href="#main">Skip to main content</a>
         {children}
+        <Analytics />
       </body>
     </html>
   );

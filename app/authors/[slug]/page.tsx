@@ -6,6 +6,7 @@ import { authors, latestReviewDate, publicQuotes } from "../../data";
 import { authorDetails } from "../../editorial-content";
 import { PageShell } from "../../site-shell";
 import { breadcrumbData, StructuredData } from "../../structured-data";
+import { RelatedCollections } from "../../related-collections";
 
 export function generateStaticParams() { return authors.map(({ slug }) => ({ slug })); }
 
@@ -55,6 +56,6 @@ export default async function Author({ params }: { params: Promise<{ slug: strin
       </div>
       <aside className="author-facts"><strong>Editorial record</strong><dl><dt>Published quotations</dt><dd>{selected.length}</dd><dt>Source policy</dt><dd>Primary or reliable secondary editions</dd><dt>Rights preference</dt><dd>Public domain</dd><dt>Correction route</dt><dd>Available on every quotation</dd></dl></aside>
     </article>
-    <section className="content"><p className="eyebrow">Verified quotations</p><div className="quote-list">{selected.map((quote) => <QuoteCard quote={quote} key={quote.id} />)}</div></section>
+    <section className="content"><RelatedCollections quotes={selected} /><p className="eyebrow">Verified quotations</p><div className="quote-list">{selected.map((quote) => <QuoteCard quote={quote} key={quote.id} />)}</div></section>
   </PageShell>;
 }

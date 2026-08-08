@@ -43,6 +43,8 @@ export default async function Home() {
       <section className="section">
         <div className="section-head"><div><p className="eyebrow">Indian voices and languages</p><h2>Read the words with their context intact.</h2></div><a href="/indian-quotes">Explore Indian quotes →</a></div>
         <div className="card-grid">
+          <a className="index-card" href="/love-quotes"><h3>Love quotes</h3><p>Affection, friendship and constancy from verified public-domain works, with dramatic context kept visible.</p><b>Explore love quotes →</b></a>
+          <a className="index-card" href="/sources"><h3>Source works</h3><p>Browse books, plays, speeches and editions directly, then read every reviewed selection from that work.</p><b>Browse source works →</b></a>
           <a className="index-card" href="/indian-quotes"><h3>Indian quotes</h3><p>Verified poetry, philosophy and source texts from Indian voices, with editions and translators kept visible.</p><b>Browse the collection →</b></a>
           <a className="index-card" href="/hindi-quotes"><h3>Hindi quotes with English meanings</h3><p>Source-checked Devanagari dohas with clearly labelled editorial meanings.</p><b>Read in Hindi →</b></a>
         </div>

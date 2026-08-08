@@ -3,6 +3,7 @@ import { CollectionControls } from "../components";
 import { publicQuotes } from "../data";
 import { PageShell } from "../site-shell";
 import { breadcrumbData, StructuredData } from "../structured-data";
+import { RelatedCollections } from "../related-collections";
 
 export const metadata: Metadata = {
   title: "Hindi Quotes with English Meanings and Sources",
@@ -26,6 +27,7 @@ export default function HindiQuotesPage() {
         <h2>Keep wording, meaning and edition distinct.</h2>
         <p>Open an author record for the cited edition and editorial method. Use the displayed Devanagari when quoting the original; use the English line as a meaning guide.</p>
       </aside>
+      <RelatedCollections quotes={selected} />
       <CollectionControls quotes={selected} />
     </section>
   </PageShell>;
