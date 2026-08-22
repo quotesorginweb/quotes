@@ -32,6 +32,8 @@ test("image sitemap and robots expose the collection image inventory", async () 
   assert.match(sitemapIndex, /sitemap\.xml/);
   assert.match(sitemapIndex, /image-sitemap\.xml/);
   assert.match(sitemapIndex, /s-maxage=3600/);
+  assert.doesNotMatch(sitemapIndex, /X-Robots-Tag/);
+  assert.doesNotMatch(sitemap, /X-Robots-Tag/);
   assert.match(robots, /sitemap-index\.xml/);
   assert.match(robots, /image-sitemap\.xml/);
 });
