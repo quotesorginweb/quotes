@@ -24,8 +24,14 @@ test("every verified topic collection has five original image formats", async ()
 
 test("image sitemap and robots expose the collection image inventory", async () => {
   const sitemap = await readFile(new URL("../app/image-sitemap.xml/route.ts", import.meta.url), "utf8");
+  const sitemapIndex = await readFile(new URL("../app/sitemap-index.xml/route.ts", import.meta.url), "utf8");
   const robots = await readFile(new URL("../app/robots.ts", import.meta.url), "utf8");
   assert.match(sitemap, /image:license/);
   assert.match(sitemap, /image:caption/);
+  assert.match(sitemapIndex, /<sitemapindex/);
+  assert.match(sitemapIndex, /sitemap\.xml/);
+  assert.match(sitemapIndex, /image-sitemap\.xml/);
+  assert.match(sitemapIndex, /s-maxage=3600/);
+  assert.match(robots, /sitemap-index\.xml/);
   assert.match(robots, /image-sitemap\.xml/);
 });
