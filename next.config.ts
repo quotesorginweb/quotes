@@ -4,14 +4,14 @@ const analyticsOrigin = (() => {
   try { return process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL ? new URL(process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL).origin : ""; }
   catch { return ""; }
 })();
-const scriptSources = ["'self'", "'unsafe-inline'", analyticsOrigin].filter(Boolean).join(" ");
+const scriptSources = ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", analyticsOrigin].filter(Boolean).join(" ");
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src ${scriptSources}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://www.google-analytics.com https://region1.google-analytics.com",
   "font-src 'self' data:",
-  `connect-src 'self' ${analyticsOrigin}`.trim(),
+  `connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com ${analyticsOrigin}`.trim(),
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' mailto:",

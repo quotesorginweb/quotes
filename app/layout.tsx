@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "./analytics";
+import { CookieConsent } from "./cookie-consent";
 import { StructuredData } from "./structured-data";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
@@ -47,6 +48,7 @@ export default function RootLayout({
         ]} />
         {children}
         <Analytics />
+        <CookieConsent />
       </body>
     </html>
   );
