@@ -27,6 +27,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
   },
   alternates: { types: { "application/rss+xml": "/rss.xml" } },
+  other: { "webops360-site-verification": "pM5zeL5cGeA2X558MKbRQLE4LuQVIvoGfBW2zEP0W4M" },
   verification: {
     ...(googleVerification ? { google: googleVerification } : {}),
     ...(bingVerification ? { other: { "msvalidate.01": bingVerification } } : {}),
