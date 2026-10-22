@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { QuoteCard, SearchBox } from "./components";
 import { authors, moods, quoteForDate, todayUtc, topics } from "./data";
 import { PageShell } from "./site-shell";
+import { StructuredData } from "./structured-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -9,6 +10,31 @@ export default async function Home() {
   const daily = quoteForDate(todayUtc());
   return (
     <PageShell>
+      <StructuredData data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://quotes.org.in/#webpage",
+            name: "Verified Quotes with Sources | Quotes.org.in",
+            url: "https://quotes.org.in/",
+            description: "Discover carefully sourced quotations by topic, mood, occasion and author. Copy, share and create original quote images.",
+            isPartOf: { "@id": "https://quotes.org.in/#website" },
+          },
+          {
+            "@type": "Quotation",
+            "@id": `https://quotes.org.in/quote-of-the-day/${todayUtc()}#quotation`,
+            text: daily.text,
+            creator: {
+              "@type": "Person",
+              name: daily.author,
+              url: `https://quotes.org.in/authors/${daily.authorSlug}`,
+            },
+            citation: { "@type": "CreativeWork", name: daily.source, url: daily.sourceUrl },
+            isPartOf: { "@id": "https://quotes.org.in/#webpage" },
+          },
+        ],
+      }} />
       <section className="hero">
         <div>
           <p className="eyebrow">Verified words. Thoughtfully sourced.</p>

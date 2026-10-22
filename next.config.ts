@@ -4,7 +4,7 @@ const analyticsOrigin = (() => {
   try { return process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL ? new URL(process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL).origin : ""; }
   catch { return ""; }
 })();
-const scriptSources = ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://webops360.codeuweb.com/api/schema/loader", analyticsOrigin].filter(Boolean).join(" ");
+const scriptSources = ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", analyticsOrigin].filter(Boolean).join(" ");
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src ${scriptSources}`,

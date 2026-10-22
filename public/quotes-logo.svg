@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="128" viewBox="0 0 640 128" role="img" aria-labelledby="title desc">
+<title id="title">Quotes.org.in — Voice</title><desc id="desc">A quotation bubble in the Quotes.org.in navy, teal and gold palette.</desc>
+<g transform="translate(8 12)"><path d="M39 6h78a35 35 0 0 1 35 35v26a35 35 0 0 1-35 35H91l-30 18V102H39A35 35 0 0 1 4 67V41A35 35 0 0 1 39 6Z" fill="#066c76"/>
+<path d="M49 39c0-10 6-16 15-16s15 6 15 16c0 8-4 14-12 18l-6-8c4-2 6-4 7-7H49V39Zm40 0c0-10 6-16 15-16s15 6 15 16c0 8-4 14-12 18l-6-8c4-2 6-4 7-7H89V39Z" fill="#f8f5ee"/>
+<circle cx="139" cy="20" r="8" fill="#e9a23b"/></g>
+<text x="184" y="79" font-family="Georgia, 'Times New Roman', serif" font-size="55" font-weight="700" letter-spacing="-1.6" fill="#102a43">Quotes<tspan font-size="30" font-weight="600" fill="#066c76">.org.in</tspan></text>
+</svg>

@@ -43,14 +43,33 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <a className="skip-link" href="#main">Skip to main content</a>
-        <StructuredData data={[
-          { "@context": "https://schema.org", "@type": "Organization", name: "Quotes.org.in", url: "https://quotes.org.in", logo: "https://quotes.org.in/favicon.svg" },
-          { "@context": "https://schema.org", "@type": "WebSite", name: "Quotes.org.in", url: "https://quotes.org.in", potentialAction: { "@type": "SearchAction", target: "https://quotes.org.in/search?q={search_term_string}", "query-input": "required name=search_term_string" } },
-        ]} />
+        <StructuredData data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://quotes.org.in/#organization",
+              name: "Quotes.org.in",
+              url: "https://quotes.org.in/",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://quotes.org.in/quotes-brand-mark.svg",
+                width: 512,
+                height: 512,
+              },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://quotes.org.in/#website",
+              name: "Quotes.org.in",
+              url: "https://quotes.org.in/",
+              publisher: { "@id": "https://quotes.org.in/#organization" },
+            },
+          ],
+        }} />
         {children}
         <Analytics />
         <CookieConsent />
-        <script defer src="https://webops360.codeuweb.com/api/schema/loader?siteId=e4d545aa-9b86-4cfc-87a0-384f8aa68ab4" />
       </body>
     </html>
   );
