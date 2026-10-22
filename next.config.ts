@@ -21,7 +21,12 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
-  turbopack: { root: process.cwd() },
+  turbopack: {
+    root: process.cwd(),
+    resolveAlias: process.env.VERCEL
+      ? { "cloudflare:workers": "./db/vercel-workers-shim.ts" }
+      : undefined,
+  },
   typescript: { tsconfigPath: "tsconfig.vercel.json" },
   async headers() {
     return [{
