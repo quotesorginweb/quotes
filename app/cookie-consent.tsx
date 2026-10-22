@@ -2,6 +2,11 @@
 import { useEffect, useState } from "react";
 const measurementId = "G-BZYWKQ0SX5";
 const storageKey = "quotes-cookie-consent-v1";
+const settingsHash = "#cookie-preferences";
+
+export function CookieSettingsButton() {
+  return <a className="cookie-settings" href={settingsHash}>Change cookie preferences</a>;
+}
 declare global { interface Window { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void; } }
 function startMeasurement() {
   if (document.getElementById("quotes-google-tag")) return;
@@ -24,11 +29,15 @@ export function CookieConsent() {
     let choice: string | null = null;
     try { choice = localStorage.getItem(storageKey); } catch {}
     if (choice === "accepted") startMeasurement();
-    queueMicrotask(() => setOpen(!choice));
+    queueMicrotask(() => setOpen(location.hash === settingsHash || !choice));
+    const showSettings = () => { if (location.hash === settingsHash) setOpen(true); };
+    window.addEventListener("hashchange", showSettings);
+    return () => window.removeEventListener("hashchange", showSettings);
   }, []);
   const choose = (accepted: boolean) => {
     try { localStorage.setItem(storageKey, accepted ? "accepted" : "rejected"); } catch {}
     setOpen(false);
+    if (location.hash === settingsHash) history.replaceState(history.state, "", `${location.pathname}${location.search}`);
     if (accepted) startMeasurement();
     else {
       window.gtag?.("consent", "update", { analytics_storage: "denied" });
@@ -41,7 +50,6 @@ export function CookieConsent() {
     }
   };
   return <>
-    <button className="cookie-settings" onClick={() => setOpen(true)}>Cookie settings</button>
     {open && <section className="cookie-banner" aria-label="Cookie consent">
       <h2>Cookie preferences</h2>
       <p>With your permission, Google Analytics cookies help us understand visits to Quotes.org.in. Optional Google measurement stays off until you accept. Saved quotes and essential features work either way. <a href="/privacy">Privacy notice</a></p>

@@ -1,0 +1,38 @@
+# Quotes.org.in
+
+> A quotation library for discovering words by topic, author, mood and occasion, with visible source references, attribution notes and editorial review.
+
+Read the source and edition linked to a quotation before relying on its exact wording. Keep the author, source, translation and attribution context with quoted text. A quotation's public-domain status does not automatically grant permission to reuse this site's original artwork.
+
+Public collections contain reviewed records. Do not treat user-entered image-maker text as verified quotation content. Individual quotation pages provide reading and sharing context; topic collections are their canonical search destinations. Smaller author collections may remain outside search indexes while their reviewed coverage grows.
+
+The links below lead to public HTML pages and XML discovery files. This guide does not grant additional crawling permissions, change robots.txt, or expose private editorial tools.
+
+## Find quotations
+
+- [Topics](https://quotes.org.in/topics): Browse quotation collections by subject.
+- [Authors](https://quotes.org.in/authors): Find author records, quotations and source notes.
+- [Source works](https://quotes.org.in/sources): Explore the books, speeches and other works behind the quotations.
+- [Moods](https://quotes.org.in/moods): Browse by mood.
+- [Occasions](https://quotes.org.in/occasions): Explore published occasion collections.
+- [Quote of the day](https://quotes.org.in/quote-of-the-day): Read the selected daily quotation.
+- [Search](https://quotes.org.in/search): Search quotations, authors and topics using the q query parameter.
+
+## Attribution and editorial standards
+
+- [About](https://quotes.org.in/about): What the library publishes and why sources matter.
+- [Verification](https://quotes.org.in/verification): Wording, attribution, translation and rights checks.
+- [Editorial policy](https://quotes.org.in/editorial-policy): Selection, review and publication standards.
+- [Corrections](https://quotes.org.in/corrections): Public record of material corrections.
+- [Copyright](https://quotes.org.in/copyright): Separate rights for quotation text and original artwork.
+- [Contact](https://quotes.org.in/contact): Source questions, corrections, rights and licensing enquiries.
+
+## Optional
+
+- [Indian quotations](https://quotes.org.in/indian-quotes): Reviewed collections from Indian source traditions.
+- [Hindi quotations](https://quotes.org.in/hindi-quotes): Hindi wording with English meanings and context.
+- [Image maker](https://quotes.org.in/tools/quote-image-generator): Create an image from quotation text; custom input is unverified.
+- [Sitemap index](https://quotes.org.in/sitemap-index.xml): Public sitemap discovery.
+- [RSS feed](https://quotes.org.in/rss.xml): Published quotation feed.
+- [Privacy](https://quotes.org.in/privacy): Data and measurement choices.
+- [Terms](https://quotes.org.in/terms): Conditions of use.

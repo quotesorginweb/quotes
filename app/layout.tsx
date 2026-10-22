@@ -50,6 +50,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <CookieConsent />
+        <script defer src="https://webops360.codeuweb.com/api/schema/loader?siteId=e4d545aa-9b86-4cfc-87a0-384f8aa68ab4" />
       </body>
     </html>
   );

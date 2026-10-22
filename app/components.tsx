@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Quote } from "./data";
 import { editorialEmail } from "./site-config";
 
@@ -26,12 +26,13 @@ export function SearchAnalytics({ query, resultCount }: { query: string; resultC
 }
 
 export function SearchBox({ compact = false }: { compact?: boolean }) {
+  const searchId = useId();
   const [query, setQuery] = useState("");
   return (
     <form className={`search-box ${compact ? "compact" : ""}`} action="/search" role="search">
-      <label className="sr-only" htmlFor={compact ? "header-search" : "hero-search"}>Search quotations, authors and topics</label>
+      <label className="sr-only" htmlFor={searchId}>Search quotations, authors and topics</label>
       <span aria-hidden="true">⌕</span>
-      <input id={compact ? "header-search" : "hero-search"} name="q" maxLength={120} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search a quote, author or topic…" />
+      <input id={searchId} type="search" name="q" maxLength={120} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search a quote, author or topic…" />
       <button type="submit">Search</button>
     </form>
   );
